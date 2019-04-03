@@ -1,0 +1,59 @@
+{
+  "name": "kuestions-app",
+  "version": "0.0.0",
+  "description": "Webcomponent kuestions-app following open-wc recommendations",
+  "author": "kuestions-app",
+  "homepage": "https://github.com/open-wc/open-wc/",
+  "license": "MIT",
+  "repository": "https://github.com/open-wc/open-wc/",
+  "scripts": {
+    "start": "owc-dev-server --open demo",
+    "lint:eslint": "eslint --ext .js,.html .",
+    "format:eslint": "eslint --ext .js,.html . --fix",
+    "lint:prettier": "prettier \"**/*.js\" --list-different || (echo '↑↑ these files are not prettier formatted ↑↑' && exit 1)",
+    "format:prettier": "prettier \"**/*.js\" --write",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "build": "webpack --mode production",
+    "start:dev": "NODE_ENV=development webpack-dev-server --mode development --open",
+    "start:dev:es5": "webpack-dev-server --mode development --es5",
+    "start:prod": "npx http-server dist/ -o",
+    "build:stats": "webpack --mode production --profile --json > bundle-stats.json"
+  },
+  "dependencies": {
+    "@vaadin/router": "^1.2.0",
+    "axios": "^0.18.0",
+    "haunted": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "lit-element": "^2.0.1",
+    "lit-html": "^1.0.0",
+    "nanoid": "^2.0.1",
+    "pwa-helpers": "^0.9.1",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
+    "webpack-merge": "^4.2.1"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.0",
+    "@open-wc/building-webpack": "^1.1.0",
+    "@open-wc/eslint-config": "^0.4.1",
+    "@open-wc/prettier-config": "^0.1.0",
+    "html-webpack-harddisk-plugin": "^1.0.1",
+    "http-server": "^0.11.1",
+    "husky": "^1.0.0",
+    "lint-staged": "^8.0.0",
+    "owc-dev-server": "^0.3.0",
+    "rimraf": "^2.6.3",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
