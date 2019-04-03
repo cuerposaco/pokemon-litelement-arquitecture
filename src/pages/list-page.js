@@ -1,12 +1,13 @@
 // import { component } from 'haunted';
-import { css, html } from 'lit-element'
-import { fetchAll } from '../store/actions/pokemon.actions'
-import { ConnectedElement } from '../components/ConnectedElement/ConnectedElement'
+import { css, html } from 'lit-element';
+import { fetchAll } from '../store/actions/pokemon.actions';
+import { ConnectedElement } from '../components/ConnectedElement/ConnectedElement';
 
 export default class Component extends ConnectedElement {
   static get styles() {
     return css`
-      :host {}
+      :host {
+      }
       .list {
         display: flex;
         flex-wrap: wrap;
@@ -32,17 +33,17 @@ export default class Component extends ConnectedElement {
 
   static get properties() {
     return {
-      pokemonList: {type: Array}
-    }
+      pokemonList: { type: Array },
+    };
   }
 
   stateChanged(state) {
-    this.pokemonList = state.pokemon.results
+    this.pokemonList = state.pokemon.results;
   }
 
   // eslint-disable-next-line class-methods-use-this
   firstUpdated() {
-    if (!this.pokemonList || !this.pokemonList.length ) this.dispatch(fetchAll())
+    if (!this.pokemonList || !this.pokemonList.length) this.dispatch(fetchAll());
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -50,10 +51,15 @@ export default class Component extends ConnectedElement {
     return html`
       <section>
         <div class="list">
-          ${this.pokemonList.map(({ name }) => html`<div class="list-item"><a href="/pokemon/${name}">${name}</a></div>`)}
+          ${this.pokemonList.map(
+            ({ name }) =>
+              html`
+                <div class="list-item"><a href="/pokemon/${name}">${name}</a></div>
+              `,
+          )}
         </div>
       </section>
-    `
+    `;
   }
 }
 

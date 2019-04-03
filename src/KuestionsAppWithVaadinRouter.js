@@ -1,11 +1,12 @@
 import { html, css } from 'lit-element';
 import { withRouter } from './enhancers';
-import { ConnectedElement } from './components/ConnectedElement/ConnectedElement'
+import { ConnectedElement } from './components/ConnectedElement/ConnectedElement';
 
 export default class KuestionsApp extends withRouter()(ConnectedElement) {
   static get styles() {
     return css`
-      :host {}
+      :host {
+      }
       nav {
         padding: 1em;
         background-color: white;
@@ -26,14 +27,13 @@ export default class KuestionsApp extends withRouter()(ConnectedElement) {
         font-weight: bold;
         color: #666;
       }
-
     `;
   }
 
   static get properties() {
     return {
       activePage: { type: String },
-    }
+    };
   }
 
   firstUpdated() {
@@ -45,27 +45,27 @@ export default class KuestionsApp extends withRouter()(ConnectedElement) {
             path: '',
             component: 'home-page',
             action: () => {
-              this.activePage = 'home'
-              import('./pages/home-page') // .then(res => console.log('response', res)).catch(err => console.log(err))
+              this.activePage = 'home';
+              import('./pages/home-page'); // .then(res => console.log('response', res)).catch(err => console.log(err))
             },
           },
           {
             path: '/pokemons',
             component: 'list-page',
             action: () => {
-              this.activePage = 'pokemons'
-              import('./pages/list-page') // .then(res => console.log('response', res)).catch(err => console.log(err))
+              this.activePage = 'pokemons';
+              import('./pages/list-page'); // .then(res => console.log('response', res)).catch(err => console.log(err))
             },
           },
           {
             path: '/pokemon/:name',
             component: 'detail-page',
             action: () => {
-              this.activePage = 'pokemons'
-              import('./pages/detail-page') // .then(res => console.log('response', res)).catch(err => console.log(err))
+              this.activePage = 'pokemons';
+              import('./pages/detail-page'); // .then(res => console.log('response', res)).catch(err => console.log(err))
             },
           },
-        ]
+        ],
       },
     ];
     super.firstUpdated();
@@ -75,8 +75,8 @@ export default class KuestionsApp extends withRouter()(ConnectedElement) {
   render() {
     return html`
       <nav>
-        <a href="/" class=${this.activePage==='home' ? 'active' : '' }>Home</a>
-        <a href="/pokemons" class=${this.activePage==='pokemons' ? 'active' : '' }>Pokemons</a>
+        <a href="/" class=${this.activePage === 'home' ? 'active' : ''}>Home</a>
+        <a href="/pokemons" class=${this.activePage === 'pokemons' ? 'active' : ''}>Pokemons</a>
       </nav>
       <main></main>
     `;

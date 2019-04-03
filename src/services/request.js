@@ -6,12 +6,12 @@ const defaultHeaders = {
 
 export const request = (url, options = {}) => {
   const defaultOptions = {
-    method: "GET",
+    method: 'GET',
     headers: defaultHeaders,
-  }
+  };
   return axios({
     url,
     ...defaultOptions,
     ...options,
-  }).then(({ data }) => data)
+  }).then(({ data }) => data);
 };

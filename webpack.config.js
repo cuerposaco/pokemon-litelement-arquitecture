@@ -38,12 +38,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: resolve(__dirname, './src/index.html'),
       inject: false,
-      alwaysWriteToDisk: true
+      alwaysWriteToDisk: true,
     }),
     // Write HtmlWebpackPlugin to path
     new HtmlWebpackHarddiskPlugin({
       outputPath: resolve(__dirname),
     }),
     mergedConfig.plugins[1],
-  ]
-}
+  ],
+};

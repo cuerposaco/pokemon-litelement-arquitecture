@@ -5,11 +5,10 @@ import { Router } from '@vaadin/router';
 export const withStore = store => connect(store);
 
 // Router Enhancer
-export const withRouter = () => BaseClass => class extends BaseClass {
-
-  firstUpdated() {
-    const router = new Router(this.shadowRoot.querySelector('main'));
-    router.setRoutes(this.routes)
-    console.log(this.routes)
-  }
-}
+export const withRouter = () => BaseClass =>
+  class extends BaseClass {
+    firstUpdated() {
+      const router = new Router(this.shadowRoot.querySelector('main'));
+      router.setRoutes(this.routes);
+    }
+  };
