@@ -1,4 +1,5 @@
-# \<kuestions-app>
+# pokemon-litelement-arquitecture
+Example project arquitecture with LitElement, Redux and Vaadin/Router
 
 This webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.
 
@@ -35,3 +36,4 @@ npm run storybook
 ```bash
 npm run lint
 ```
+
