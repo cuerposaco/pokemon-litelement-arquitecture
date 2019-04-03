@@ -1,32 +1,38 @@
 // import { component } from 'haunted';
-import { html } from 'lit-element'
-import { ConnectedElement } from '../components/ConnectedElement/ConnectedElement'
-// import { fetchPokemon } from '../store/actions/pokemon.actions'
+import { html, LitElement } from 'lit-element'
+// import { ConnectedElement } from '../components/ConnectedElement/ConnectedElement'
+import { fetchByName } from '../services/pokemon/pokemon'
 
-export default class Component extends ConnectedElement {
+export default class Component extends LitElement {
   static get properties() {
     return {
       pokemonDetail: {type: Object}
     }
   }
 
-  stateChanged(state) {
-    this.pokemonDetail = state.pokemon.results
-  }
-
-  // eslint-disable-next-line class-methods-use-this
   firstUpdated() {
-    console.log('location.params.name', this.location.params.name)
-    console.log(this.location);
-    // state.pokemon.results
-    // this.dispatch(fetchAll())
+    fetchByName(this.location.params.name).then(detail => { this.pokemonDetail = detail })
   }
 
-  // eslint-disable-next-line class-methods-use-this
   render() {
     return html`
       <div>
-      Detail ${this.location.params.name}
+        ${
+          !this.pokemonDetail
+            ? html`<noscript></noscript>`
+            : html`
+              <div><strong>base_experience:</strong> ${this.pokemonDetail.base_experience}</div>
+              <div><strong>weight:</strong> ${this.pokemonDetail.weight}</div>
+              <div><strong>height:</strong> ${this.pokemonDetail.height}</div>
+              <div>
+                ${
+                  Object.keys(this.pokemonDetail.sprites)
+                    .filter(key => this.pokemonDetail.sprites[key])
+                    .map(key => html`<img src="${this.pokemonDetail.sprites[key]}" title="${key}"/>`)
+                }
+              </div>
+            `
+        }
       </div>
     `
   }

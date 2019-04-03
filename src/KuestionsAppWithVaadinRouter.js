@@ -1,23 +1,32 @@
 import { html, css } from 'lit-element';
-import { Router } from '@vaadin/router';
+import { withRouter } from './enhancers';
 import { ConnectedElement } from './components/ConnectedElement/ConnectedElement'
 
-export default class KuestionsApp extends ConnectedElement {
+export default class KuestionsApp extends withRouter()(ConnectedElement) {
   static get styles() {
     return css`
-      :host {
-        background: grey;
-        display: block;
-        padding: 25px;
+      :host {}
+      nav {
+        padding: 1em;
+        background-color: white;
+        border-bottom: 1px solid #c3c3c3;
       }
+
+      main {
+        padding: 1em;
+      }
+
       a {
         font-weight: normal;
         color: #c3c3c3;
+        padding: 0 0.5em;
       }
+
       a.active {
         font-weight: bold;
         color: #666;
       }
+
     `;
   }
 
@@ -28,8 +37,7 @@ export default class KuestionsApp extends ConnectedElement {
   }
 
   firstUpdated() {
-    const router = new Router(this.shadowRoot.querySelector('main'));
-    router.setRoutes([
+    this.routes = [
       {
         path: '/',
         children: [
@@ -38,7 +46,7 @@ export default class KuestionsApp extends ConnectedElement {
             component: 'home-page',
             action: () => {
               this.activePage = 'home'
-              import('./pages/home-page').then(res => console.log('response', res)).catch(err => console.log(err))
+              import('./pages/home-page') // .then(res => console.log('response', res)).catch(err => console.log(err))
             },
           },
           {
@@ -46,7 +54,7 @@ export default class KuestionsApp extends ConnectedElement {
             component: 'list-page',
             action: () => {
               this.activePage = 'pokemons'
-              import('./pages/list-page').then(res => console.log('response', res)).catch(err => console.log(err))
+              import('./pages/list-page') // .then(res => console.log('response', res)).catch(err => console.log(err))
             },
           },
           {
@@ -54,12 +62,13 @@ export default class KuestionsApp extends ConnectedElement {
             component: 'detail-page',
             action: () => {
               this.activePage = 'pokemons'
-              import('./pages/detail-page').then(res => console.log('response', res)).catch(err => console.log(err))
+              import('./pages/detail-page') // .then(res => console.log('response', res)).catch(err => console.log(err))
             },
           },
         ]
       },
-    ]);
+    ];
+    super.firstUpdated();
   }
 
   // stateChanged(state) {}
@@ -67,7 +76,7 @@ export default class KuestionsApp extends ConnectedElement {
     return html`
       <nav>
         <a href="/" class=${this.activePage==='home' ? 'active' : '' }>Home</a>
-        <a href="/pokemons" class=${this.activePage==='list' ? 'active' : '' }>Pokemons</a>
+        <a href="/pokemons" class=${this.activePage==='pokemons' ? 'active' : '' }>Pokemons</a>
       </nav>
       <main></main>
     `;

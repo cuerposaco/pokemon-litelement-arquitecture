@@ -1,9 +1,8 @@
 import { LitElement } from 'lit-element';
-import { connect } from 'pwa-helpers';
+import { withStore } from '../../enhancers'
 import { store } from '../../store/store';
 
-const withStore = BaseElement => connect(store)(BaseElement)
-const ConnectedElement = class extends withStore(LitElement) {
+const ConnectedElement = class extends withStore(store)(LitElement) {
   constructor() {
     super();
     this.dispatch = store.dispatch;
