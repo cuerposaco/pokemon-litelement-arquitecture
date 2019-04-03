@@ -1,9 +1,35 @@
 // import { component } from 'haunted';
-import { html } from 'lit-element'
+import { css, html } from 'lit-element'
 import { fetchAll } from '../store/actions/pokemon.actions'
 import { ConnectedElement } from '../components/ConnectedElement/ConnectedElement'
 
 export default class Component extends ConnectedElement {
+  static get styles() {
+    return css`
+      :host {}
+      .list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .list-item {
+        text-transform: uppercase;
+        padding: 0.7em;
+      }
+      .list-item a,
+      .list-item a:visited,
+      .list-item a:focus,
+      .list-item a:active {
+        color: #333;
+        text-decoration: none;
+      }
+      .list-item a:hover {
+        font-weight: bold;
+        color: #333;
+      }
+    `;
+  }
+
   static get properties() {
     return {
       pokemonList: {type: Array}
@@ -11,22 +37,22 @@ export default class Component extends ConnectedElement {
   }
 
   stateChanged(state) {
-    console.log('stateChanged', state.pokemon.results)
     this.pokemonList = state.pokemon.results
   }
 
   // eslint-disable-next-line class-methods-use-this
   firstUpdated() {
-    console.log('firstUpdated', this.pokemonList)
     if (!this.pokemonList || !this.pokemonList.length ) this.dispatch(fetchAll())
   }
 
   // eslint-disable-next-line class-methods-use-this
   render() {
     return html`
-      <ul>
-      ${this.pokemonList.map(({ name }) => html`<li><a href="/pokemon/${name}">${name}</a></li>`)}
-      </ul>
+      <section>
+        <div class="list">
+          ${this.pokemonList.map(({ name }) => html`<div class="list-item"><a href="/pokemon/${name}">${name}</a></div>`)}
+        </div>
+      </section>
     `
   }
 }

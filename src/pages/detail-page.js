@@ -1,9 +1,15 @@
 // import { component } from 'haunted';
-import { html, LitElement } from 'lit-element'
+import { css, html, LitElement } from 'lit-element'
 // import { ConnectedElement } from '../components/ConnectedElement/ConnectedElement'
 import { fetchByName } from '../services/pokemon/pokemon'
 
 export default class Component extends LitElement {
+  static get styles() {
+    return css`
+      :host {}
+    `;
+  }
+
   static get properties() {
     return {
       pokemonDetail: {type: Object}
