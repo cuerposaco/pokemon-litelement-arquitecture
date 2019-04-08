@@ -13,8 +13,8 @@ export default function pokemonReducer(state = initialState(), action) {
     case 'SET_PAGESIZE':
       return {
         ...state,
-        pageSize: Number(action.pageSize)
-      }
+        pageSize: Number(action.pageSize),
+      };
     case 'POKEMON_FETCHING':
       return {
         ...state,

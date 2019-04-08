@@ -7,11 +7,11 @@ export const fetchAll = page => (dispatch, getState) => {
   });
 
   fetchAllPokemons({
-      params: {
-        limit: getState().pokemon.pageSize,
-        offset: getState().pokemon.pageSize * page,
-      }
-    })
+    params: {
+      limit: getState().pokemon.pageSize,
+      offset: getState().pokemon.pageSize * page,
+    },
+  })
     .then(({ count, results }) => {
       dispatch({
         type: 'POKEMON_FETCHED',
@@ -29,8 +29,8 @@ export const fetchAll = page => (dispatch, getState) => {
 
 export const setPageSize = pageSize => (dispatch, getState) => {
   dispatch({
-    type: "SET_PAGESIZE",
+    type: 'SET_PAGESIZE',
     pageSize,
-  })
-  dispatch(fetchAll(getState().pokemon.currentPage))
+  });
+  dispatch(fetchAll(getState().pokemon.currentPage));
 };

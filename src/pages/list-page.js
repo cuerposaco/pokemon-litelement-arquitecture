@@ -43,7 +43,7 @@ export default class Component extends ConnectedElement {
   }
 
   stateChanged(state) {
-    const {results, loading, totalItems, pages, currentPage, pageSize} = state.pokemon;
+    const { results, loading, totalItems, pages, currentPage, pageSize } = state.pokemon;
     this.pokemonList = results;
     this.loading = loading;
     this.totalItems = totalItems;
@@ -55,7 +55,7 @@ export default class Component extends ConnectedElement {
   // eslint-disable-next-line class-methods-use-this
   firstUpdated() {
     if (
-      (this.currentPage !== this.location.params.page) ||
+      this.currentPage !== this.location.params.page ||
       (!this.pokemonList || !this.pokemonList.length)
     ) {
       this.dispatch(fetchAll(this.location.params.page));
@@ -66,9 +66,16 @@ export default class Component extends ConnectedElement {
   render() {
     return html`
       <section>
-        <div>Mostrando <strong>${this.pokemonList.length}</strong> de <strong>${this.totalItems}</strong></div>
+        <div>
+          Mostrando <strong>${this.pokemonList.length}</strong> de
+          <strong>${this.totalItems}</strong>
+        </div>
         <div class="list">
-          ${this.loading ? html`<div>loading...</div>` : null}
+          ${this.loading
+            ? html`
+                <div>loading...</div>
+              `
+            : null}
           ${this.pokemonList.map(
             ({ name }) =>
               html`
@@ -76,30 +83,33 @@ export default class Component extends ConnectedElement {
               `,
           )}
         </div>
-        ${
-          !this.pokemonList
-            ? html``
-            : html`<div class="list">${
-              Array(this.totalPages).fill(0)
-                .map((_, i) => i)
-                .map(page =>
-                  page !== this.currentPage
-                    ? html`<a class="list-item" href="/pokemons/${page > 0 ? page : '' }">${page + 1}</a>`
-                    : html`<span class="list-item">${page + 1}</a>`
-                )
-              }</div>`
-        }
+        ${!this.pokemonList
+          ? html``
+          : html`
+              <div class="list">
+                ${Array(this.totalPages)
+                  .fill(0)
+                  .map((_, i) => i)
+                  .map(page =>
+                    page !== this.currentPage
+                      ? html`
+                          <a class="list-item" href="/pokemons/${page > 0 ? page : ''}"
+                            >${page + 1}</a
+                          >
+                        `
+                      : html`<span class="list-item">${page + 1}</a>`,
+                  )}
+              </div>
+            `}
         <select @change=${e => this.dispatch(setPageSize(e.target.value))}>
-          ${
-            [10, 20, 50, 100]
-              .map(value =>
-                html`
-                  <option value="${value}" ?selected=${value === this.pageSize}>
-                    ${value}
-                  </option>
-                `
-              )
-          }
+          ${[10, 20, 50, 100].map(
+            value =>
+              html`
+                <option value="${value}" ?selected=${value === this.pageSize}>
+                  ${value}
+                </option>
+              `,
+          )}
         </select>
       </section>
     `;
