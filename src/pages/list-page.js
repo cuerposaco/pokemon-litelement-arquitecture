@@ -34,6 +34,7 @@ export default class Component extends ConnectedElement {
   static get properties() {
     return {
       pokemonList: { type: Array },
+      loading: { type: Boolean },
       totalItems: { type: Number },
       totalPages: { type: Number },
       currentPage: { type: Number },
@@ -42,11 +43,13 @@ export default class Component extends ConnectedElement {
   }
 
   stateChanged(state) {
-    this.pokemonList = state.pokemon.results;
-    this.totalItems = state.pokemon.totalItems;
-    this.totalPages = state.pokemon.pages;
-    this.currentPage = state.pokemon.currentPage;
-    this.pageSize = state.pokemon.pageSize;
+    const {results, loading, totalItems, pages, currentPage, pageSize} = state.pokemon;
+    this.pokemonList = results;
+    this.loading = loading;
+    this.totalItems = totalItems;
+    this.totalPages = pages;
+    this.currentPage = currentPage;
+    this.pageSize = pageSize;
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -65,6 +68,7 @@ export default class Component extends ConnectedElement {
       <section>
         <div>Mostrando <strong>${this.pokemonList.length}</strong> de <strong>${this.totalItems}</strong></div>
         <div class="list">
+          ${this.loading ? html`<div>loading...</div>` : null}
           ${this.pokemonList.map(
             ({ name }) =>
               html`
