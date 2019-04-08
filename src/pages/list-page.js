@@ -1,6 +1,6 @@
 // import { component } from 'haunted';
 import { css, html } from 'lit-element';
-import { fetchAll } from '../store/actions/pokemon.actions';
+import { fetchAll, setPageSize } from '../store/actions/pokemon.actions';
 import { ConnectedElement } from '../components/ConnectedElement/ConnectedElement';
 
 export default class Component extends ConnectedElement {
@@ -34,22 +34,36 @@ export default class Component extends ConnectedElement {
   static get properties() {
     return {
       pokemonList: { type: Array },
+      totalItems: { type: Number },
+      totalPages: { type: Number },
+      currentPage: { type: Number },
+      pageSize: { type: Number },
     };
   }
 
   stateChanged(state) {
     this.pokemonList = state.pokemon.results;
+    this.totalItems = state.pokemon.totalItems;
+    this.totalPages = state.pokemon.pages;
+    this.currentPage = state.pokemon.currentPage;
+    this.pageSize = state.pokemon.pageSize;
   }
 
   // eslint-disable-next-line class-methods-use-this
   firstUpdated() {
-    if (!this.pokemonList || !this.pokemonList.length) this.dispatch(fetchAll());
+    if (
+      (this.currentPage !== this.location.params.page) ||
+      (!this.pokemonList || !this.pokemonList.length)
+    ) {
+      this.dispatch(fetchAll(this.location.params.page));
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this
   render() {
     return html`
       <section>
+        <div>Mostrando <strong>${this.pokemonList.length}</strong> de <strong>${this.totalItems}</strong></div>
         <div class="list">
           ${this.pokemonList.map(
             ({ name }) =>
@@ -58,6 +72,31 @@ export default class Component extends ConnectedElement {
               `,
           )}
         </div>
+        ${
+          !this.pokemonList
+            ? html``
+            : html`<div class="list">${
+              Array(this.totalPages).fill(0)
+                .map((_, i) => i)
+                .map(page =>
+                  page !== this.currentPage
+                    ? html`<a class="list-item" href="/pokemons/${page > 0 ? page : '' }">${page + 1}</a>`
+                    : html`<span class="list-item">${page + 1}</a>`
+                )
+              }</div>`
+        }
+        <select @change=${e => this.dispatch(setPageSize(e.target.value))}>
+          ${
+            [10, 20, 50, 100]
+              .map(value =>
+                html`
+                  <option value="${value}" ?selected=${value === this.pageSize}>
+                    ${value}
+                  </option>
+                `
+              )
+          }
+        </select>
       </section>
     `;
   }

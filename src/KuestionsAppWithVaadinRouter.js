@@ -50,7 +50,7 @@ export default class KuestionsApp extends withRouter()(ConnectedElement) {
             },
           },
           {
-            path: '/pokemons',
+            path: '/pokemons/:page?',
             component: 'list-page',
             action: () => {
               this.activePage = 'pokemons';
